@@ -24,7 +24,7 @@
     "build:mydeviceinfo:pre": "npx nx build mydeviceinfo --c=pre --aot --base-href ./",
     "build:mydeviceinfo:dev": "npx nx build mydeviceinfo --c=dev --aot --base-href ./",
 
-    "copy-assets-to-dist:mydeviceinfo": "touch \".npmrc\" && cpx \".npmrc\" \"dist/apps/mydeviceinfo/\" && cpx \"apps/mydeviceinfo/package.json\" \"dist/apps/mydeviceinfo/\"",
+    "copy-assets-to-dist:mydeviceinfo": "touch \".npmrc\" && cpx \".npmrc\" \"dist/apps/mydeviceinfo/\" && cpx \"README.md\" \"dist/apps/mydeviceinfo/\" && cpx \"apps/mydeviceinfo/package.json\" \"dist/apps/mydeviceinfo/\"",
 
     "version:mydeviceinfo": "cd \"dist/apps/mydeviceinfo/\" && npm version",
 
