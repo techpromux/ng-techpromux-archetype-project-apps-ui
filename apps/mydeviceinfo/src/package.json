@@ -1,8 +1,21 @@
 {
-  "name": "@techpromux/mydeviceinfo",
+  "name": "@ng-techpromux-archetype-project/apps-ui-mydeviceinfo",
   "version": "0.1.3",
-  "private": false,
-  "publishConfig": {
-    "registry": "https://nexus.techpromuxsoftdev.com/nexus/content/repositories/npm-local/"
-  }
+  "description": "My Device Info App",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techpromux/ng-techpromux-archetype-project-apps-ui.git"
+  },
+  "keywords": [
+    "deviceinfo"
+  ],
+  "author": "Techpromux",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/techpromux/ng-techpromux-archetype-project-apps-ui/issues"
+  },
+  "homepage": "https://github.com/techpromux/ng-techpromux-archetype-project-apps-ui/blob/main/README.md",
+  "peerDependencies": {},
+  "dependencies": {},
+  "sideEffects": false
 }
