@@ -3,6 +3,6 @@
   "version": "0.1.2",
   "private": false,
   "publishConfig": {
-    "registry": "https://nexus.techpromuxsoftdev.ml/nexus/content/repositories/npm-local/"
+    "registry": "https://nexus.techpromuxsoftdev.com/nexus/content/repositories/npm-local/"
   }
 }
