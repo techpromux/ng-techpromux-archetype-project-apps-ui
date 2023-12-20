@@ -1,2 +1,2 @@
-# angular-archetype-project-frontend-applications-ui
+# ng-techpromux-archetype-project-apps-ui
 Angular Archetype Project - Frontend Applications UI
