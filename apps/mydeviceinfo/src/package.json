@@ -2,6 +2,7 @@
   "name": "@ng-techpromux-archetype-project/apps-ui-mydeviceinfo",
   "version": "0.0.0",
   "description": "My Device Info App",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/techpromux/ng-techpromux-archetype-project-apps-ui.git"
