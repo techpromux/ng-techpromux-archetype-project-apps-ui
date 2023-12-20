@@ -10,6 +10,8 @@ import { APP_VERSION } from '../../../config/app.vars';
 export class DefaultFooterComponent extends FooterComponent {
   version: string = inject(APP_VERSION);
 
+  currentDate: Date = new Date();
+
   constructor() {
     super();
   }

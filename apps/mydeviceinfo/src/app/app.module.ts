@@ -1,12 +1,8 @@
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  HashLocationStrategy,
-  LocationStrategy,
-  PathLocationStrategy,
-} from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
 
 /*
 import {
@@ -32,7 +28,6 @@ import {
 import {
   AvatarModule,
   BadgeModule,
-  BreadcrumbModule,
   ButtonGroupModule,
   ButtonModule,
   CardModule,
