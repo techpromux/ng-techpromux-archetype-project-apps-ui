@@ -145,4 +145,5 @@ testem.log
 Thumbs.db
 
 .angular
+.history
 .npmrc
