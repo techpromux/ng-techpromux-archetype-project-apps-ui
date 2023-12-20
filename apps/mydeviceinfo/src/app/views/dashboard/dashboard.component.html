@@ -1,0 +1,407 @@
+<!-- 
+  -----------------------------------------------------------------------------------
+  DEVICE 
+  -----------------------------------------------------------------------------------
+-->
+
+<c-row>
+  <c-col xs>
+    <c-card class="mb-2">
+      <c-card-header>
+        <c-row>
+          <c-col>
+            <i class="bi bi-phone"></i>
+            Device
+          </c-col>
+        </c-row>
+      </c-card-header>
+
+      <c-card-body class="pt-2 pb-2">
+        <c-row>
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">NAME:</div>
+              <div class="">
+                {{ deviceInfo.info.name }}
+              </div>
+            </ng-container>
+          </c-col>
+
+          <hr class="mt-1 mb-1" />
+
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">MANUFACTURER</div>
+              <div class="">
+                {{ deviceInfo.info.manufacturer }}
+              </div>
+            </ng-container>
+          </c-col>
+
+          <hr class="mt-1 mb-1" />
+
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">MODEL</div>
+              <div class="">
+                {{ deviceInfo.info.model }}
+              </div>
+            </ng-container>
+          </c-col>
+
+          <hr class="mt-1 mb-1" />
+
+          <c-col>
+            <ng-container *ngIf="deviceInfo.id">
+              <div class="text-medium-emphasis">DEVICE ID</div>
+              <div class="">
+                {{ deviceInfo.id.uuid }}
+              </div>
+            </ng-container>
+          </c-col>
+
+          <!-- 
+
+          <hr class="mt-1 mb-1" />
+
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">WEB VIEW VERSION</div>
+              <div class="">
+                {{ deviceInfo.info.webViewVersion }}
+              </div>
+            </ng-container>
+          </c-col>
+          
+          -->
+        </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!-- 
+  -----------------------------------------------------------------------------------
+  OPERATING SYSTEM
+  -----------------------------------------------------------------------------------
+-->
+
+<c-row>
+  <c-col xs>
+    <c-card class="mb-2">
+      <c-card-header>
+        <c-row>
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <i
+                class="bi"
+                [class.bi-app]="deviceInfo.info.operatingSystem == 'ios'"
+                [class.bi-android2]="
+                  deviceInfo.info.operatingSystem == 'android'
+                "
+                [class.bi-windows]="
+                  deviceInfo.info.operatingSystem == 'windows'
+                "
+                [class.bi-apple]="deviceInfo.info.operatingSystem == 'mac'"
+                [class.bi-bug]="deviceInfo.info.operatingSystem == 'unknown'"
+              >
+              </i>
+            </ng-container>
+            Operating System
+          </c-col>
+        </c-row>
+      </c-card-header>
+
+      <c-card-body class="pt-2 pb-2">
+        <c-row>
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">OPERATING SYSTEM</div>
+              <div class="">
+                {{ deviceInfo.info.operatingSystem }}
+              </div>
+            </ng-container>
+          </c-col>
+
+          <hr class="mt-1 mb-1" />
+
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">O.S. VERSION</div>
+              <div class="">
+                {{ deviceInfo.info.osVersion }}
+              </div>
+            </ng-container>
+          </c-col>
+
+          <hr class="mt-1 mb-1" />
+
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">PLATFORM</div>
+              <div class="">
+                {{ deviceInfo.info.platform }}
+              </div>
+            </ng-container>
+          </c-col>
+
+          <hr class="mt-1 mb-1" />
+
+          <c-col>
+            <ng-container
+              *ngIf="deviceInfo.languageCode && deviceInfo.languageTag"
+            >
+              <div class="text-medium-emphasis">LANGUAGE</div>
+              <div class="">
+                <span *ngIf="deviceInfo.languageCode.value == 'es'"
+                  >Spanish</span
+                >
+                <span *ngIf="deviceInfo.languageCode.value == 'en'"
+                  >English</span
+                >
+                <span
+                  *ngIf="
+                    deviceInfo.languageCode.value !== 'es' &&
+                    deviceInfo.languageCode.value !== 'en'
+                  "
+                >
+                  {{ deviceInfo.languageCode.value }}
+                </span>
+                (<span>{{ deviceInfo.languageTag.value }}</span
+                >)
+              </div>
+            </ng-container>
+          </c-col>
+        </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!-- 
+  -----------------------------------------------------------------------------------
+  BATTERY 
+  -----------------------------------------------------------------------------------
+-->
+
+<c-row>
+  <c-col xs>
+    <c-card class="mb-2">
+      <c-card-header>
+        <c-row>
+          <c-col>
+            <ng-container *ngIf="deviceInfo.batteryInfo">
+              <i
+                class="bi bi-rotate-270"
+                [class.bi-battery-charging]="deviceInfo.batteryInfo.isCharging"
+                [class.bi-battery]="
+                  !deviceInfo.batteryInfo.isCharging &&
+                  isInRange(deviceInfo.batteryInfo.batteryLevel, 0.0, 0.15)
+                "
+                [class.bi-battery-half]="
+                  !deviceInfo.batteryInfo.isCharging &&
+                  isInRange(deviceInfo.batteryInfo.batteryLevel, 0.15, 0.85)
+                "
+                [class.bi-battery-full]="
+                  !deviceInfo.batteryInfo.isCharging &&
+                  isInRange(deviceInfo.batteryInfo.batteryLevel, 0.85, 1.0)
+                "
+              ></i>
+            </ng-container>
+            Battery
+          </c-col>
+        </c-row>
+      </c-card-header>
+
+      <c-card-body class="pt-2 pb-2">
+        <c-row>
+          <c-col>
+            <div class="progress-group-prepend" *ngIf="deviceInfo.batteryInfo">
+              <span
+                class="text-medium-emphasis"
+                *ngIf="deviceInfo.batteryInfo.isCharging"
+              >
+                Connected
+              </span>
+              <span
+                class="text-medium-emphasis"
+                *ngIf="!deviceInfo.batteryInfo.isCharging"
+              >
+                Disconnected
+              </span>
+            </div>
+          </c-col>
+          <c-col>
+            <ng-container *ngIf="deviceInfo.batteryInfo">
+              <c-progress class="mt-1">
+                <c-progress-bar
+                  color="danger"
+                  *ngIf="
+                    isInRange(deviceInfo.batteryInfo.batteryLevel, 0, 0.15)
+                  "
+                  [value]="
+                    getBatteryPercent(deviceInfo.batteryInfo.batteryLevel)
+                  "
+                ></c-progress-bar>
+                <c-progress-bar
+                  color="warning"
+                  *ngIf="
+                    isInRange(deviceInfo.batteryInfo.batteryLevel, 0.15, 0.5)
+                  "
+                  [value]="
+                    getBatteryPercent(deviceInfo.batteryInfo.batteryLevel)
+                  "
+                ></c-progress-bar>
+                <c-progress-bar
+                  color="info"
+                  *ngIf="
+                    isInRange(deviceInfo.batteryInfo.batteryLevel, 0.5, 0.85)
+                  "
+                  [value]="
+                    getBatteryPercent(deviceInfo.batteryInfo.batteryLevel)
+                  "
+                ></c-progress-bar>
+                <c-progress-bar
+                  color="success"
+                  *ngIf="
+                    isInRange(deviceInfo.batteryInfo.batteryLevel, 0.85, 1.0)
+                  "
+                  [value]="
+                    getBatteryPercent(deviceInfo.batteryInfo.batteryLevel)
+                  "
+                ></c-progress-bar>
+              </c-progress>
+            </ng-container>
+          </c-col>
+          <c-col md="12" xl="12" xs="12">
+            <ng-container *ngIf="deviceInfo.batteryInfo">
+              <div class="text-end">
+                {{ getBatteryPercent(deviceInfo.batteryInfo.batteryLevel) }}%
+                available
+              </div>
+            </ng-container>
+          </c-col>
+        </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!-- 
+-----------------------------------------------------------------------------------
+MEMORY 
+-----------------------------------------------------------------------------------
+-->
+
+<c-row>
+  <c-col xs>
+    <c-card class="mb-2">
+      <c-card-header>
+        <c-row>
+          <c-col>
+            <i class="bi bi-memory"></i>
+            Memory
+          </c-col>
+        </c-row>
+      </c-card-header>
+
+      <c-card-body class="pt-2 pb-2">
+        <c-row>
+          <c-col>
+            <ng-container>
+              <c-chart
+                [ngStyle]="{ 'marginTop.px': 0 }"
+                [data]="utilData.memoryData.data"
+                [options]="utilData.memoryData.options"
+                [type]="utilData.memoryData.type"
+              ></c-chart>
+            </ng-container>
+            <hr class="mt-1 mb-1" />
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-end">
+                Memory Used: {{ getMemoryUsed(deviceInfo.info.memUsed) }} MB
+              </div>
+            </ng-container>
+          </c-col>
+        </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!-- 
+-----------------------------------------------------------------------------------
+DISK 
+-----------------------------------------------------------------------------------
+-->
+
+<c-row>
+  <c-col xs>
+    <c-card class="mb-2">
+      <c-card-header>
+        <c-row>
+          <c-col>
+            <i class="bi bi-hdd"></i>
+            Disk
+          </c-col>
+        </c-row>
+      </c-card-header>
+
+      <c-card-body class="pt-2 pb-2">
+        <c-row>
+          <c-col>
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">FREE SPACE</div>
+              <div class="">
+                {{ getDiskSpaceInGB(deviceInfo.info.realDiskFree) }} GB
+                <i class="bi bi-circle-fill fs-6 text-info"></i>
+              </div>
+            </ng-container>
+
+            <hr class="mt-1 mb-1" />
+
+            <ng-container
+              *ngIf="
+                deviceInfo.info &&
+                deviceInfo.info.realDiskTotal &&
+                deviceInfo.info.realDiskFree
+              "
+            >
+              <div class="text-medium-emphasis">DISK USED</div>
+              <div class="">
+                {{
+                  getDiskSpaceInGB(
+                    deviceInfo.info.realDiskTotal - deviceInfo.info.realDiskFree
+                  )
+                }}
+                GB
+                <i class="bi bi-circle-fill fs-6 text-danger"></i>
+              </div>
+            </ng-container>
+
+            <hr class="mt-1 mb-1" />
+
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-medium-emphasis">TOTAL</div>
+              <div class="">
+                {{ getDiskSpaceInGB(deviceInfo.info.realDiskTotal) }} GB
+              </div>
+            </ng-container>
+          </c-col>
+
+          <c-col class="justify-content-center">
+            <ng-container>
+              <c-chart
+                class="mt-2"
+                [ngStyle]="{ 'maxHeight.px': 150 }"
+                [data]="utilData.diskData.data"
+                [options]="utilData.diskData.options"
+                [type]="utilData.diskData.type"
+              ></c-chart>
+            </ng-container>
+          </c-col>
+        </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

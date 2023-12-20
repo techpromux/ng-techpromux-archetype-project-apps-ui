@@ -1,0 +1,8 @@
+{
+  "name": "@techpromux/mydeviceinfo",
+  "version": "0.1.2",
+  "private": false,
+  "publishConfig": {
+    "registry": "https://nexus.techpromuxsoftdev.ml/nexus/content/repositories/npm-local/"
+  }
+}
