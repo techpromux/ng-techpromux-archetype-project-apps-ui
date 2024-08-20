@@ -1,6 +1,6 @@
-<!-- 
+<!--
   -----------------------------------------------------------------------------------
-  DEVICE 
+  DEVICE
   -----------------------------------------------------------------------------------
 -->
 
@@ -60,7 +60,7 @@
             </ng-container>
           </c-col>
 
-          <!-- 
+          <!--
 
           <hr class="mt-1 mb-1" />
 
@@ -72,7 +72,7 @@
               </div>
             </ng-container>
           </c-col>
-          
+
           -->
         </c-row>
       </c-card-body>
@@ -80,7 +80,7 @@
   </c-col>
 </c-row>
 
-<!-- 
+<!--
   -----------------------------------------------------------------------------------
   OPERATING SYSTEM
   -----------------------------------------------------------------------------------
@@ -95,15 +95,15 @@
             <ng-container *ngIf="deviceInfo.info">
               <i
                 class="bi"
-                [class.bi-app]="deviceInfo.info.operatingSystem == 'ios'"
+                [class.bi-app]="deviceInfo.info.operatingSystem === 'ios'"
                 [class.bi-android2]="
-                  deviceInfo.info.operatingSystem == 'android'
+                  deviceInfo.info.operatingSystem === 'android'
                 "
                 [class.bi-windows]="
-                  deviceInfo.info.operatingSystem == 'windows'
+                  deviceInfo.info.operatingSystem === 'windows'
                 "
-                [class.bi-apple]="deviceInfo.info.operatingSystem == 'mac'"
-                [class.bi-bug]="deviceInfo.info.operatingSystem == 'unknown'"
+                [class.bi-apple]="deviceInfo.info.operatingSystem === 'mac'"
+                [class.bi-bug]="deviceInfo.info.operatingSystem === 'unknown'"
               >
               </i>
             </ng-container>
@@ -153,10 +153,10 @@
             >
               <div class="text-medium-emphasis">LANGUAGE</div>
               <div class="">
-                <span *ngIf="deviceInfo.languageCode.value == 'es'"
+                <span *ngIf="deviceInfo.languageCode.value === 'es'"
                   >Spanish</span
                 >
-                <span *ngIf="deviceInfo.languageCode.value == 'en'"
+                <span *ngIf="deviceInfo.languageCode.value === 'en'"
                   >English</span
                 >
                 <span
@@ -178,9 +178,9 @@
   </c-col>
 </c-row>
 
-<!-- 
+<!--
   -----------------------------------------------------------------------------------
-  BATTERY 
+  BATTERY
   -----------------------------------------------------------------------------------
 -->
 
@@ -287,51 +287,9 @@
   </c-col>
 </c-row>
 
-<!-- 
+<!--
 -----------------------------------------------------------------------------------
-MEMORY 
------------------------------------------------------------------------------------
--->
-
-<c-row>
-  <c-col xs>
-    <c-card class="mb-2">
-      <c-card-header>
-        <c-row>
-          <c-col>
-            <i class="bi bi-memory"></i>
-            Memory
-          </c-col>
-        </c-row>
-      </c-card-header>
-
-      <c-card-body class="pt-2 pb-2">
-        <c-row>
-          <c-col>
-            <ng-container>
-              <c-chart
-                [ngStyle]="{ 'marginTop.px': 0 }"
-                [data]="utilData.memoryData.data"
-                [options]="utilData.memoryData.options"
-                [type]="utilData.memoryData.type"
-              ></c-chart>
-            </ng-container>
-            <hr class="mt-1 mb-1" />
-            <ng-container *ngIf="deviceInfo.info">
-              <div class="text-end">
-                Memory Used: {{ getMemoryUsed(deviceInfo.info.memUsed) }} MB
-              </div>
-            </ng-container>
-          </c-col>
-        </c-row>
-      </c-card-body>
-    </c-card>
-  </c-col>
-</c-row>
-
-<!-- 
------------------------------------------------------------------------------------
-DISK 
+DISK
 -----------------------------------------------------------------------------------
 -->
 
@@ -398,6 +356,48 @@ DISK
                 [options]="utilData.diskData.options"
                 [type]="utilData.diskData.type"
               ></c-chart>
+            </ng-container>
+          </c-col>
+        </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!--
+-----------------------------------------------------------------------------------
+MEMORY
+-----------------------------------------------------------------------------------
+-->
+
+<c-row>
+  <c-col xs>
+    <c-card class="mb-2">
+      <c-card-header>
+        <c-row>
+          <c-col>
+            <i class="bi bi-memory"></i>
+            Memory
+          </c-col>
+        </c-row>
+      </c-card-header>
+
+      <c-card-body class="pt-2 pb-2">
+        <c-row>
+          <c-col>
+            <ng-container>
+              <c-chart
+                [ngStyle]="{ 'marginTop.px': 0 }"
+                [data]="utilData.memoryData.data"
+                [options]="utilData.memoryData.options"
+                [type]="utilData.memoryData.type"
+              ></c-chart>
+            </ng-container>
+            <hr class="mt-1 mb-1" />
+            <ng-container *ngIf="deviceInfo.info">
+              <div class="text-end">
+                Memory Used: {{ getMemoryUsed(deviceInfo.info.memUsed) }} MB
+              </div>
             </ng-container>
           </c-col>
         </c-row>
