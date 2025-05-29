@@ -12,7 +12,7 @@ import { Title } from '@angular/platform-browser';
   template: '<router-outlet></router-outlet>',
 })
 export class AppComponent implements OnInit {
-  title = 'Device Info';
+  title = 'My Device Info';
 
   constructor(
     private router: Router,
