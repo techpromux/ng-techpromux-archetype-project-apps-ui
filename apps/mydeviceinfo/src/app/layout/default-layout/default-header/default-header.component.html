@@ -1,0 +1,23 @@
+<ng-container>
+  <c-container [fluid]="true">
+    <c-header-nav class="d-xs-flex me-auto">
+      <div class="ps-0 pe-0 pt-0 pb-0">
+        <a [routerLink]="['./']">
+          <img
+            [src]="'assets/img/brand/logo.png'"
+            alt="My Device Info"
+            [width]="35"
+            [height]="35"
+          />
+        </a>
+        <span class="ms-2 fs-5 align-middle">My Device Info</span>
+      </div>
+    </c-header-nav>
+
+    <c-header-nav class="d-none d-lg-flex me-auto"> </c-header-nav>
+
+    <c-header-nav class="d-none d-lg-flex"> </c-header-nav>
+
+    <c-header-nav class="ms-3"> </c-header-nav>
+  </c-container>
+</ng-container>

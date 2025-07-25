@@ -1,0 +1,86 @@
+{
+  "name": "demo-primefaces-sakai-ng-template",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "",
+  "sourceRoot": "apps/demo-primefaces-sakai-ng-template/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/demo-primefaces-sakai-ng-template",
+        "browser": "apps/demo-primefaces-sakai-ng-template/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/demo-primefaces-sakai-ng-template/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/demo-primefaces-sakai-ng-template/public"
+          }
+        ],
+        "styles": ["apps/demo-primefaces-sakai-ng-template/src/styles.scss"]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "demo-primefaces-sakai-ng-template:build:production"
+        },
+        "development": {
+          "buildTarget": "demo-primefaces-sakai-ng-template:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular/build:extract-i18n",
+      "options": {
+        "buildTarget": "demo-primefaces-sakai-ng-template:build"
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../coverage/apps/demo-primefaces-sakai-ng-template"
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "demo-primefaces-sakai-ng-template:build",
+        "staticFilePath": "dist/apps/demo-primefaces-sakai-ng-template/browser",
+        "spa": true
+      }
+    }
+  }
+}
