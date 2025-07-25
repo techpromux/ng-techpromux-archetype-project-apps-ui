@@ -1,0 +1,48 @@
+<div
+  class="wrapper d-flex flex-column min-vh-100 dark:bg-transparent"
+  [class.bg-light]="theme === 'light'"
+  [class.bg-dark]="theme === 'dark'"
+>
+  <!--app-header-->
+  <app-default-header
+    class="mb-2 d-print-none header header-sticky"
+    position="sticky"
+    sidebarId="sidebar"
+  ></app-default-header>
+
+  <!--app-body-->
+  <div class="body flex-grow-1 px-1 overflow-hidden">
+    <c-container breakpoint="lg" class="h-auto px-1">
+      <router-outlet></router-outlet>
+    </c-container>
+  </div>
+
+  <!--app footer-->
+  <c-footer position="sticky" class="ml-1 mr-1 ps-0 pe-0 pt-0 pb-0">
+    <app-default-footer class="ps-0 pe-0 pt-0 pb-0 w-100"></app-default-footer>
+  </c-footer>
+</div>
+
+<!-- App Loading... -->
+
+<div
+  *ngIf="loading"
+  id="loader-container"
+  class="fade show container-fluid hide-native-scrollbar"
+>
+  <div class="row">
+    <div id="loader">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="loading"></div>
+    </div>
+  </div>
+</div>
+
+<!-- App Loading... -->

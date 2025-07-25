@@ -1,24 +1,60 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule, NgStyle } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import {
+  ButtonModule,
+  CardBodyComponent,
+  CardComponent,
+  CardHeaderComponent,
+  ColComponent,
+  ProgressBarComponent,
+  ProgressComponent,
+  RowComponent,
+} from '@coreui/angular';
+import { ChartjsComponent } from '@coreui/angular-chartjs';
 
 import {
+  BatteryInfo,
   Device,
   DeviceId,
   DeviceInfo,
-  BatteryInfo,
   GetLanguageCodeResult,
   LanguageTag,
 } from '@capacitor/device';
 
-import { timer, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, timer } from 'rxjs';
 
 import { App } from '@capacitor/app';
 import { Browser } from '@capacitor/browser';
-import { randomBytes } from 'crypto';
 import { Dialog } from '@capacitor/dialog';
+
+import { Clipboard } from '@capacitor/clipboard';
+
+declare global {
+  interface Window {
+    DiskSpacePlugin: any;
+  }
+}
 
 @Component({
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
+  imports: [
+    CommonModule,
+    CardComponent,
+    CardBodyComponent,
+    RowComponent,
+    ColComponent,
+    ReactiveFormsModule,
+    ChartjsComponent,
+    NgStyle,
+    ProgressComponent,
+    ButtonModule,
+    CardHeaderComponent,
+    ProgressBarComponent,
+  ],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   // ---------------------------------------------------------------------------------------
@@ -35,7 +71,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     batteryInfo?: BatteryInfo;
     languageCode?: GetLanguageCodeResult;
     languageTag?: LanguageTag;
-  } = {};
+    diskInfo: {
+      app: number;
+      free: number;
+      total: number;
+    };
+  } = {
+    id: undefined,
+    info: undefined,
+    batteryInfo: undefined,
+    languageCode: undefined,
+    languageTag: undefined,
+    diskInfo: {
+      app: 0,
+      free: 1000,
+      total: 1000,
+    },
+  };
 
   // ---------------------------------------------------------------------------------------
 
@@ -113,12 +165,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     diskData: {
       type: 'pie',
       data: {
-        labels: ['Used', 'Free Space'],
+        labels: ['Others', 'Apk', 'Free'],
         datasets: [
           {
             data: [],
-            backgroundColor: ['#FF6384', '#36A2EB'],
-            hoverBackgroundColor: ['#FF6384', '#36A2EB'],
+            backgroundColor: ['#FF6384', '#13dd60ff', '#36A2EB'],
+            hoverBackgroundColor: ['#FF6384', '#13dd60ff', '#36A2EB'],
           },
         ],
       },
@@ -159,8 +211,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // -----------------------------
     timer(200, 500)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val) => {
-        this.getDevideInfo();
+      .subscribe((val: number) => {
+        this.getDevideInfo(val);
       });
     // -----------------------------
   }
@@ -228,14 +280,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // ---------------------------------------------------------------------------------------
 
-  getDevideInfo(): void {
+  protected getDevideInfo(timer: number): void {
     Device.getId().then((result) => {
       this.deviceInfo.id = result;
     });
 
     Device.getInfo().then((result) => {
       this.deviceInfo.info = result;
-
       // ---------------------------------------
 
       if (!result.name) {
@@ -244,58 +295,72 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       // ---------------------------------------
 
-      if (!result.realDiskFree) {
-        this.deviceInfo.info.realDiskFree = 50000000000;
-      }
+      if (timer % 2 === 0) {
+        if (result.memUsed) {
+          this.utilData.memoryData.data.datasets[0].data.unshift(
+            (result.memUsed / 1048576).toFixed(2)
+          );
+        } else {
+          this.utilData.memoryData.data.datasets[0].data.unshift(
+            (Math.random() * 100).toFixed(2)
+          );
+        }
 
-      if (!result.realDiskTotal) {
-        this.deviceInfo.info.realDiskTotal = 115000000000;
-      }
+        if (this.utilData.memoryData.data.labels.length < 50) {
+          this.utilData.memoryData.data.labels.push(
+            this.utilData.memoryData.data.labels.length
+          );
+        } else {
+          this.utilData.memoryData.data.datasets[0].data.pop();
+        }
 
-      if (
-        this.deviceInfo.info.realDiskFree &&
-        this.deviceInfo.info.realDiskTotal
-      ) {
-        this.utilData.diskData.data.datasets[0].data = [
-          this.getDiskSpaceInGB(
-            this.deviceInfo.info.realDiskTotal -
-              this.deviceInfo.info.realDiskFree
-          ),
-          this.getDiskSpaceInGB(this.deviceInfo.info.realDiskFree),
-        ];
-      }
-
-      this.utilData.diskData.data = Object.assign(
-        {},
-        this.utilData.diskData.data
-      );
-      // ---------------------------------------
-
-      if (result.memUsed) {
-        this.utilData.memoryData.data.datasets[0].data.unshift(
-          (result.memUsed / 1048576).toFixed(2)
-        );
-      } else {
-        this.utilData.memoryData.data.datasets[0].data.unshift(
-          (Math.random() * 100).toFixed(2)
+        this.utilData.memoryData.data = Object.assign(
+          {},
+          this.utilData.memoryData.data
         );
       }
-
-      if (this.utilData.memoryData.data.labels.length < 50) {
-        this.utilData.memoryData.data.labels.push(
-          this.utilData.memoryData.data.labels.length
-        );
-      } else {
-        this.utilData.memoryData.data.datasets[0].data.pop();
-      }
-
-      this.utilData.memoryData.data = Object.assign(
-        {},
-        this.utilData.memoryData.data
-      );
 
       // ---------------------------------------
     });
+
+    // ---------------------------------------
+
+    if (window.DiskSpacePlugin) {
+      window.DiskSpacePlugin.info(
+        {
+          /*
+          location: 2 // 1 for SD or 2 for Internal Storage
+          */
+        },
+        (diskSpaceInfo: any) => {
+          this.deviceInfo.diskInfo.app = diskSpaceInfo.app;
+          this.deviceInfo.diskInfo.total = diskSpaceInfo.total;
+          this.deviceInfo.diskInfo.free = diskSpaceInfo.free;
+        },
+        (err: any) => {
+          console.error('Error al obtener disk info 2:', err);
+        }
+      );
+    } else {
+      this.deviceInfo.diskInfo.app = 298870;
+      this.deviceInfo.diskInfo.total = 98717873000;
+      this.deviceInfo.diskInfo.free = 2655628000;
+    }
+
+    this.utilData.diskData.data.datasets[0].data = [
+      this.getDiskSpaceInKB(
+        this.deviceInfo.diskInfo.total -
+          this.deviceInfo.diskInfo.app -
+          this.deviceInfo.diskInfo.free
+      ),
+      this.getDiskSpaceInKB(this.deviceInfo.diskInfo.app),
+      this.getDiskSpaceInKB(this.deviceInfo.diskInfo.free),
+    ];
+
+    this.utilData.diskData.data = Object.assign(
+      {},
+      this.utilData.diskData.data
+    );
 
     Device.getBatteryInfo().then((result) => {
       this.deviceInfo.batteryInfo = result;
@@ -322,7 +387,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   */
 
-  exitApp(): void {
+  // ---------------------------------------------------------------------------------------
+
+  protected exitApp(): void {
     Dialog.confirm({
       title: 'Confirm',
       message: "Are you sure you'd like to close?",
@@ -339,19 +406,49 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // ---------------------------------------------------------------------------------------
 
-  getBatteryPercent(value: number | undefined): string {
+  protected getBatteryPercent(value: number | undefined): string {
     return value ? (value * 100).toFixed(0) : '';
   }
 
-  getMemoryUsed(value: number | undefined): string {
+  protected getMemoryUsed(value: number | undefined): string {
     return value ? (value / 1048576).toFixed(2) : '0.00';
   }
 
-  getDiskSpaceInGB(value: number | undefined): string {
+  protected getDiskSpaceInGB(value: number | undefined): string {
     return value ? (value / 1024 / 1024 / 1024).toFixed(2) : '0.00';
   }
 
-  isInRange(value: number | undefined, min: number, max: number): boolean {
+  protected getDiskSpaceInMB(value: number | undefined): string {
+    return value ? (value / 1024 / 1024).toFixed(2) : '0.00';
+  }
+
+  protected getDiskSpaceInKB(value: number | undefined): string {
+    return value ? (value / 1024).toFixed(2) : '0.00';
+  }
+
+  protected isInRange(
+    value: number | undefined,
+    min: number,
+    max: number
+  ): boolean {
     return value != undefined && min <= value && value <= max;
   }
+
+  // ---------------------------------------------------------------------------------------
+
+  protected copyToClipboard(text: string) {
+    Clipboard.write({
+      string: text,
+    }).then(() => {
+      Dialog.alert({
+        title: 'Information',
+        message: 'Copied to clipborad.',
+        buttonTitle: 'Close',
+      }).then(() => {
+        //
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------------------------------
 }

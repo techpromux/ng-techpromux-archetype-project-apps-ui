@@ -1,5 +1,26 @@
 // Here you can add other styles
 
+// custom .chartjs-tooltip-body-item padding
+@use 'charts';
+
+// custom tweaks for scrollbar styling (wip)
+@use 'scrollbar';
+
+// custom calendar today cell color
+.calendar-cell.today {
+  --cui-calendar-cell-today-color: var(--cui-info) !important;
+}
+
+// custom select week cursor pointer
+.select-week .calendar-row.current {
+  cursor: pointer;
+}
+
+.header > .container-fluid,
+.sidebar-header {
+  min-height: calc(2rem + 1px);
+}
+
 /* ---------------------------------------------------------- */
 /* bootstrap icons */
 /* ---------------------------------------------------------- */
@@ -72,7 +93,7 @@
 
 #loader .dot::before {
   border-radius: 100%;
-  content: "";
+  content: '';
   height: 87.5px;
   left: 0;
   position: absolute;
