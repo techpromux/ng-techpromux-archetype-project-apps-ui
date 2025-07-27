@@ -6,6 +6,17 @@
 // custom tweaks for scrollbar styling (wip)
 @use 'scrollbar';
 
+/* ---------------------------------------------------------- */
+/* Custom code for safe area insets, useful for iOS devices with notches */
+/* ---------------------------------------------------------- */
+
+body {
+  margin: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background-color: #fff;
+}
+
+/* ---------------------------------------------------------- */
 // custom calendar today cell color
 .calendar-cell.today {
   --cui-calendar-cell-today-color: var(--cui-info) !important;
@@ -16,13 +27,14 @@
   cursor: pointer;
 }
 
+/* ---------------------------------------------------------- */
 .header > .container-fluid,
 .sidebar-header {
   min-height: calc(2rem + 1px);
 }
 
 /* ---------------------------------------------------------- */
-/* bootstrap icons */
+/* custom for bootstrap icons */
 /* ---------------------------------------------------------- */
 
 .bi-rotate-90::before {
@@ -38,7 +50,7 @@
 }
 
 /* ---------------------------------------------------------- */
-/* spinner loader in home page */
+/* custom for spinner loader in home page */
 /* ---------------------------------------------------------- */
 
 #loader-container {

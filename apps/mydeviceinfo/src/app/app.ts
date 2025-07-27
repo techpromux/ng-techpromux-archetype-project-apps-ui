@@ -13,6 +13,8 @@ import { ColorModeService } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
 
+import { StatusBar, Style } from '@capacitor/status-bar';
+
 @Component({
   selector: 'app-root',
   template: '<router-outlet />',
@@ -37,6 +39,17 @@ export class App implements OnInit {
       'coreui-free-angular-admin-template-theme-default'
     );
     this.#colorModeService.eventName.set('ColorSchemeChange');
+
+    this.configureStatusBar();
+  }
+
+  protected configureStatusBar() {
+    StatusBar.setStyle({ style: Style.Dark}).then(() => {
+      //
+    });
+    StatusBar.setOverlaysWebView({ overlay: false }).then(() => {
+      //
+    });
   }
 
   ngOnInit(): void {
