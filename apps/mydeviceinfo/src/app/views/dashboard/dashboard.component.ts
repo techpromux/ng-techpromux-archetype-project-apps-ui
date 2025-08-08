@@ -440,13 +440,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     Clipboard.write({
       string: text,
     }).then(() => {
+      /*
       Dialog.alert({
-        title: 'Information',
-        message: 'Copied to clipborad.',
+        title: 'Confirmation',
+        message: 'Copied to clipboard.',
         buttonTitle: 'Close',
       }).then(() => {
         //
       });
+      */
     });
   }
 
